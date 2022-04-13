@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/DeniesKresna/config"
+	"github.com/DeniesKresna/jhapi2/config"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 )
