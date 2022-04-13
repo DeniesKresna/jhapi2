@@ -1,0 +1,6 @@
+application:
+  environment: dev
+  name: jobhun-apis
+  url: localhost:8088
+  debug: true
+  cloud: AWS
