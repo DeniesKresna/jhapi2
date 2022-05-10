@@ -1,0 +1,27 @@
+application:
+  environment: dev
+  name: jobhun-apis
+  url: localhost:8088
+  debug: true
+  cloud: AWS
+
+sentry:
+  #dsn: "https://a9a316eb8ea44ec2900f34f839cdc2b9@o419321.ingest.sentry.io/5634065"
+
+newrelic:
+  enable: true
+  log_api: "https://log-api.newrelic.com/log/v1"
+
+database: 
+  #config secret
+
+cache: 
+  #config secret
+
+aws:
+  bucket: "tataskola-admin-local"
+  prefix: "https://sqs.ap-southeast-1.amazonaws.com/235823746931"
+  region: "ap-southeast-1"
+
+constant:
+  request_timeout: 80000
