@@ -1,53 +1,42 @@
 package controller
 
-import (
-	"net/http"
-	"time"
+// func (c Controller) GetUsers(w http.ResponseWriter, r *http.Request) {
+// 	ctx := r.Context()
+// 	txn := newrelic.FromContext(ctx)
+// 	defer txn.StartSegment("GetUsers").End()
+// 	startTime := time.Now()
 
-	"github.com/DeniesKresna/jhapi2/config"
-	"github.com/DeniesKresna/jhapi2/types"
-	"github.com/DeniesKresna/jhapi2/utils"
-	"github.com/newrelic/go-agent/v3/newrelic"
-	"github.com/rs/zerolog/log"
-)
+// 	request := new(types.UserBranchRequest)
 
-func (c Controller) GetUsers(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	txn := newrelic.FromContext(ctx)
-	defer txn.StartSegment("GetUsers").End()
-	startTime := time.Now()
+// 	cfg, ok := r.Context().Value("cfg").(*config.Config)
 
-	request := new(types.UserBranchRequest)
+// 	if !ok {
+// 		log.Info().Msg("user is invalid")
+// 		log.Error().Interface("req", request).Msg("user is invalid")
+// 		response := types.ApiResponse{
+// 			Status:  http.StatusBadRequest,
+// 			Message: "Data masukan permintaan tidak sesuai",
+// 		}
+// 		w.WriteHeader(response.Status)
+// 		utils.SendHTTPResponse(w, response)
+// 		return
+// 	}
 
-	cfg, ok := r.Context().Value("cfg").(*config.Config)
+// 	request.BranchID = cfg.User.AccessID
+// 	request.RoleID = cfg.User.RoleID
 
-	if !ok {
-		log.Info().Msg("user is invalid")
-		log.Error().Interface("req", request).Msg("user is invalid")
-		response := types.ApiResponse{
-			Status:  http.StatusBadRequest,
-			Message: "Data masukan permintaan tidak sesuai",
-		}
-		w.WriteHeader(response.Status)
-		utils.SendHTTPResponse(w, response)
-		return
-	}
-
-	request.BranchID = cfg.User.AccessID
-	request.RoleID = cfg.User.RoleID
-
-	data, err := c.userSvc.GetUserBranch(r.Context(), *request)
-	message := "Sukses"
-	if err != nil || len(data) == 0 {
-		message = "Pengguna sekolah atau institusi tidak ditemukan"
-	}
-	response := types.ApiResponseV2{
-		Header: types.HeaderResponse{
-			ProcessTime: time.Since(startTime).Milliseconds(),
-			Message:     message,
-		},
-		Data: data,
-	}
-	w.WriteHeader(http.StatusOK)
-	utils.SendHTTPResponse(w, response)
-}
+// 	data, err := c.userSvc.GetUserBranch(r.Context(), *request)
+// 	message := "Sukses"
+// 	if err != nil || len(data) == 0 {
+// 		message = "Pengguna sekolah atau institusi tidak ditemukan"
+// 	}
+// 	response := types.ApiResponseV2{
+// 		Header: types.HeaderResponse{
+// 			ProcessTime: time.Since(startTime).Milliseconds(),
+// 			Message:     message,
+// 		},
+// 		Data: data,
+// 	}
+// 	w.WriteHeader(http.StatusOK)
+// 	utils.SendHTTPResponse(w, response)
+// }

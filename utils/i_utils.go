@@ -14,4 +14,5 @@ type IUtils interface {
 	CopyFile(src, dst string) error
 	CopyFileFromMultipart(filename string, originalfile multipart.File) error
 	ConvertDatetimeReadable(dt string) (string, error)
+	InjectStructValue(sourceSctruct interface{}, destinationStruct interface{})
 }

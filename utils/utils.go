@@ -9,6 +9,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"reflect"
 	"strings"
 	"time"
 
@@ -280,4 +281,29 @@ func (u Utility) CreateNewHTTPRequest(data PayloadRequest) (*http.Response, erro
 		return nil, err
 	}
 	return resp, err
+}
+
+// Inject Struct Field Value from field in source struct to destination struct
+func (u Utility) InjectStructValue(sourceSctruct interface{}, destinationStruct interface{}) {
+	var srcReflectValue = reflect.ValueOf(sourceSctruct)
+	if srcReflectValue.Kind() == reflect.Ptr {
+		srcReflectValue = srcReflectValue.Elem()
+	}
+
+	var srcReflectType = srcReflectValue.Type()
+
+	var dstReflectValue = reflect.ValueOf(destinationStruct)
+	if dstReflectValue.Kind() == reflect.Ptr {
+		dstReflectValue = dstReflectValue.Elem()
+	}
+
+	var dstReflectType = dstReflectValue.Type()
+
+	for i := 0; i < srcReflectType.NumField(); i++ {
+		srcField := srcReflectType.Field(i).Name
+		_, ok := dstReflectType.FieldByName(srcField)
+		if ok {
+			dstReflectValue.FieldByName(srcField).Set(srcReflectValue.FieldByName(srcField))
+		}
+	}
 }
